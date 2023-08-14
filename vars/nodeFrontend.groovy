@@ -24,7 +24,7 @@ void call() {
 
     stage ("Build Image") {
         docker.build("${nodeRegistry}/${name}:${BUILD_NUMBER}", "-f ./.ci/Dockerfile \
-        --build-arg BASEIMG=${baseImage} --build-arg IMG_VERSION=${BUILD_NUMBER} \
+        --build-arg BASEIMG=${baseImage} --build-arg IMG_VERSION=${baseTag} \
         ${WORKSPACE}/src/frontend")
     }
 
