@@ -17,7 +17,7 @@ void call() {
 
     stage ('Prepare Package') {
         script {
-            writeFile file: '.ci/Dockerfile', text: libraryResource('deploy/dev/node/Dockerfile.frontend')
+            writeFile file: '.ci/Dockerfile', text: libraryResource('dev/node/Dockerfile.frontend')
             writeFile file: '.ci/deployment.yml', text: libraryResource('deploy/eks/node/frontend.yaml')
         }
     }
