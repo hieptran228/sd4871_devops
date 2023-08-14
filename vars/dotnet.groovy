@@ -26,8 +26,8 @@ void call() {
             writeFile file: '.ci/Dockerfile.Runtime.API', text: libraryResource('dev/demo/flows/dotnet/docker/Dockerfile.Runtime.API')
             writeFile file: '.ci/Dockerfile.SonarBuild', text: libraryResource('dev/demo/flows/dotnet/docker/Dockerfile.SonarBuild')
             writeFile file: '.ci/docker_entrypoint.sh', text: libraryResource('dev/demo/flows/dotnet/script/docker_entrypoint.sh')
-            writeFile file: '.ci/deployment.yml', text: libraryResource('deploy/aks/deployment.yml')
-            writeFile file: '.ci/service.yml', text: libraryResource('deploy/aks/service.yml')
+            writeFile file: '.ci/deployment.yml', text: libraryResource('deploy/eks/deployment.yml')
+            writeFile file: '.ci/service.yml', text: libraryResource('deploy/eks/service.yml')
         }
     }
 
@@ -78,13 +78,13 @@ void call() {
     stage ("Push Docker Images") {
         withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: acrCredential, usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD']]) {
             docker.withRegistry("https://${demoRegistry}", acrCredential ) {
-                sh "docker login ${demoRegistry} -u ${USERNAME} -p ${PASSWORD}"
+                //sh "docker login ${demoRegistry} -u ${USERNAME} -p ${PASSWORD}"
                 sh "docker push ${demoRegistry}/${name}:${BUILD_NUMBER}"
             }
         }
     }
     stage ("Deploy To K8S") {
-        kubeconfig(credentialsId: 'akstest', serverUrl: '') {
+        kubeconfig(credentialsId: 'eks-dev', serverUrl: '') {
             sh "export registry=${demoRegistry}; export appname=${name}; export tag=${BUILD_NUMBER}; \
             envsubst < .ci/deployment.yml > deployment.yml; envsubst < .ci/service.yml > service.yml"
             sh "kubectl apply -f deployment.yml -n ${namespace}"
