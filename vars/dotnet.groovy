@@ -32,13 +32,13 @@ void call() {
     }
 
     stage ("Build Solution") {
-        docker.build("demo/${name}-sdk:${BUILD_NUMBER}", "--force-rm --no-cache -f ./.ci/Dockerfile.SDK \
+        docker.build("${name}-sdk:${BUILD_NUMBER}", "--force-rm --no-cache -f ./.ci/Dockerfile.SDK \
         --build-arg BASEIMG=${baseImage} --build-arg IMG_VERSION=${baseTag} ${WORKSPACE}") 
     }
 
     stage ('Run Unit Tests') {
         sh "mkdir -p results"
-        sh "docker run -i --rm --volume './results:/src/results' demo/${name}-sdk:${BUILD_NUMBER} $rununitTest"
+        sh "docker run -i --rm --volume './results:/src/results' ${name}-sdk:${BUILD_NUMBER} $rununitTest"
     }
 
     stage ('Run Integration Tests') {
@@ -46,7 +46,7 @@ void call() {
     }
 
     stage ('Process Test Results') {
-        docker.image("demo/${name}-sdk:${BUILD_NUMBER}").inside() {
+        docker.image("${name}-sdk:${BUILD_NUMBER}").inside() {
             xunit(
                 testTimeMargin: '600000',
                 thresholdMode: 1,
@@ -62,7 +62,7 @@ void call() {
         script {
             withSonarQubeEnv(credentialsId: sonarToken) {
                 withCredentials([string(credentialsId: sonarToken, variable: 'SONAR_TOKEN')]) {
-                    docker.build("demo/${name}-sonar:${BUILD_NUMBER}", "--force-rm --no-cache -f ./.ci/Dockerfile.SonarBuild \
+                    docker.build("${name}-sonar:${BUILD_NUMBER}", "--force-rm --no-cache -f ./.ci/Dockerfile.SonarBuild \
                     --build-arg BASEIMG=${baseImage} --build-arg IMG_VERSION=${baseTag} --build-arg SONAR_PROJECT=${name} --build-arg SONAR_TOKEN=${SONAR_TOKEN} ${WORKSPACE}") 
                 }
             }
@@ -70,8 +70,8 @@ void call() {
     }
 
     stage ("Publish Package") {
-        docker.build("${demoRegistry}/demo/${name}:${BUILD_NUMBER}", "--force-rm --no-cache -f ./.ci/Dockerfile.Runtime.API \
-        --build-arg BASEIMG=demo/${name}-sdk --build-arg IMG_VERSION=${BUILD_NUMBER} \
+        docker.build("${demoRegistry}/${name}:${BUILD_NUMBER}", "--force-rm --no-cache -f ./.ci/Dockerfile.Runtime.API \
+        --build-arg BASEIMG=${name}-sdk --build-arg IMG_VERSION=${BUILD_NUMBER} \
         --build-arg ENTRYPOINT=${runtime} --build-arg PUBLISH_PROJ=${publishProject} --build-arg RUNIMG=${baseImage} --build-arg RUNVER=${baseTag} .")
     }
 
@@ -79,7 +79,7 @@ void call() {
         withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: acrCredential, usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD']]) {
             docker.withRegistry("https://${demoRegistry}", acrCredential ) {
                 sh "docker login ${demoRegistry} -u ${USERNAME} -p ${PASSWORD}"
-                sh "docker push ${demoRegistry}/demo/${name}:${BUILD_NUMBER}"
+                sh "docker push ${demoRegistry}/${name}:${BUILD_NUMBER}"
             }
         }
     }
