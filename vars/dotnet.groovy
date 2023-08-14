@@ -84,11 +84,12 @@ void call() {
         }
     }
     stage ("Deploy To K8S") {
-        kubeconfig(credentialsId: 'eks-dev', serverUrl: '') {
-            sh "export registry=${demoRegistry}; export appname=${name}; export tag=${BUILD_NUMBER}; \
-            envsubst < .ci/deployment.yml > deployment.yml; envsubst < .ci/service.yml > service.yml"
-            sh "kubectl apply -f deployment.yml -n ${namespace}"
-            sh "kubectl apply -f service.yml -n ${namespace}"
+        withKubeConfig([credentialsId: 'eks-dev', serverUrl: '']) {
+            // sh "export registry=${demoRegistry}; export appname=${name}; export tag=${BUILD_NUMBER}; \
+            // envsubst < .ci/deployment.yml > deployment.yml; envsubst < .ci/service.yml > service.yml"
+            // sh "kubectl apply -f deployment.yml -n ${namespace}"
+            // sh "kubectl apply -f service.yml -n ${namespace}"
+            sh "kubectl get pods"
         }
     }
 }
