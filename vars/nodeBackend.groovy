@@ -37,7 +37,7 @@ void call() {
     }
     stage ("Deploy To K8S") {
         withKubeConfig([credentialsId: 'eks-dev', serverUrl: '']) {
-            sh "export registry=${demoRegistry}; export appname=${name}; export tag=${BUILD_NUMBER}; \
+            sh "export registry=${nodeRegistry}; export appname=${name}; export tag=${BUILD_NUMBER}; \
             envsubst < .ci/deployment.yml > deployment.yml"
             sh "kubectl apply -f deployment.yml -n ${namespace}"
         }
