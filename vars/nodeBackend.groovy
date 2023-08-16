@@ -5,7 +5,7 @@ void call() {
     String baseTag       = "lts-buster-slim"
     String nodeRegistry = "913820192915.dkr.ecr.ap-southeast-1.amazonaws.com"
     String sonarToken = "sonar-token"
-    String ecrCredential = 'ecr-token'
+    String ecrCredential = 'ecr:ap-southeast-1:aws-cred'
     String k8sCredential = 'eks-token'
     String namespace = "node"
 
@@ -29,10 +29,13 @@ void call() {
     }
 
     stage ("Push Docker Images") {
-        withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: ecrCredential, usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD']]) {
-            docker.withRegistry("https://${nodeRegistry}", ecrCredential ) {
-                sh "docker push ${nodeRegistry}/${name}:${BUILD_NUMBER}"
-            }
+        // withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: ecrCredential, usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD']]) {
+        //     docker.withRegistry("https://${nodeRegistry}", ecrCredential ) {
+        //         sh "docker push ${nodeRegistry}/${name}:${BUILD_NUMBER}"
+        //     }
+        // }
+        docker.withRegistry("https://${nodeRegistry}", ecrCredential) {
+            docker.image(${name}).push()
         }
     }
     stage ("Deploy To K8S") {
