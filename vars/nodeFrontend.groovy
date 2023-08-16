@@ -35,7 +35,7 @@ void call() {
         //     }
         // }
         docker.withRegistry("https://${nodeRegistry}", ecrCredential) {
-            docker.image("${name}").push()
+            docker.image("${nodeRegistry}/${name}:${BUILD_NUMBER}").push()
         }
     }
     stage ("Deploy To K8S") {
