@@ -29,7 +29,7 @@ void call() {
         docker.withRegistry("https://${registry}", ecrCredential) {
             withKubeConfig([credentialsId: 'eks-dev', serverUrl: '']) {
                 sh "export registry=${registry}; export frontendApp=${frontendApp}; export backendApp=${backendApp}; export project=${project}; export frontendTag=${frontendTag}; export backendTag=${backendTag};\
-                envsubst < .cd/frontend.yml > frontend.yml; envsubst < .cd/backend.yml > backend.yml; envsubst < .cd/ingress.yml > ingress.yml; envsubst < .cd/mongo.yml > mongo.yml"
+                envsubst < .cd/frontend.yml > frontend.yml; envsubst < .cd/backend.yml > backend.yml; envsubst < .cd/ingress.yml > ingress.yml; envsubst < .cd/mongodb.yml > mongodb.yml"
                 sh "kubectl apply -f frontend.yml -n ${namespace}"
                 sh "kubectl apply -f backend.yml -n ${namespace}"
                 sh "kubectl apply -f ingress.yml -n ${namespace}"
