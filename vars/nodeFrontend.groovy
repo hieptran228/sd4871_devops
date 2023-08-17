@@ -3,7 +3,7 @@ void call() {
     String name = "frontend-nashtech-hieptran-sd4871"
     String baseImage     = "node"
     String baseTag       = "lts-buster-slim"
-    String nodeRegistry = "913820192915.dkr.ecr.ap-southeast-1.amazonaws.com"
+    String registry = "913820192915.dkr.ecr.ap-southeast-1.amazonaws.com"
     String sonarToken = "sonar-token"
     String ecrCredential = 'ecr:ap-southeast-1:aws-cred'
     String k8sCredential = 'eks-token'
@@ -18,31 +18,18 @@ void call() {
     stage ('Prepare Package') {
         script {
             writeFile file: '.ci/Dockerfile', text: libraryResource('dev/node/Dockerfile.frontend')
-            writeFile file: '.ci/deployment.yml', text: libraryResource('deploy/eks/node/frontend.yaml')
         }
     }
 
     stage ("Build Image") {
-        docker.build("${nodeRegistry}/${name}:${BUILD_NUMBER}", "-f ./.ci/Dockerfile \
+        docker.build("${registry}/${name}:${BUILD_NUMBER}", "-f ./.ci/Dockerfile \
         --build-arg BASEIMG=${baseImage} --build-arg IMG_VERSION=${baseTag} \
         ${WORKSPACE}/src/frontend")
     }
 
     stage ("Push Docker Images") {
-        // withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: ecrCredential, usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD']]) {
-        //     docker.withRegistry("https://${nodeRegistry}", ecrCredential ) {
-        //         sh "docker push ${nodeRegistry}/${name}:${BUILD_NUMBER}"
-        //     }
-        // }
-        docker.withRegistry("https://${nodeRegistry}", ecrCredential) {
-            docker.image("${nodeRegistry}/${name}:${BUILD_NUMBER}").push()
-        }
-    }
-    stage ("Deploy To K8S") {
-        withKubeConfig([credentialsId: 'eks-dev', serverUrl: '']) {
-            sh "export registry=${nodeRegistry}; export appname=${name}; export tag=${BUILD_NUMBER}; \
-            envsubst < .ci/deployment.yml > deployment.yml"
-            sh "kubectl apply -f deployment.yml -n ${namespace}"
+        docker.withRegistry("https://${registry}", ecrCredential) {
+            docker.image("${registry}/${name}:${BUILD_NUMBER}").push()
         }
     }
 }

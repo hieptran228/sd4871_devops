@@ -10,7 +10,7 @@ void call(Map pipelineParams){
         }
 
         stages {
-            stage ('Load Pipeline') {
+            stage ('Load Deploy Pipeline') {
                 when {
                     allOf {
                         // Condition Check
@@ -25,16 +25,12 @@ void call(Map pipelineParams){
                             allOf {
                                 triggeredBy 'UserIdCause'
                             }
-                            // Changes from frontend
-                            allOf {
-                                changeset '**/frontend/**'
-                            }
                         }
                     }
                 }
                 steps {
                     script {
-                        nodeFrontend()
+                        eksDeploy()
                     }
                 }
             }

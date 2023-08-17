@@ -1,10 +1,10 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: backend
+  name: ${backendApp}
 spec:
   selector:
-    app: backend
+    app: ${backendApp}
   ports:
     - port: 3000
       protocol: TCP
@@ -14,20 +14,20 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: backend
+  name: ${backendApp}
 spec:
   selector:
     matchLabels:
-      app: backend
+      app: ${backendApp}
   replicas: 1
   template:
     metadata:
       labels:
-        app: backend
+        app: ${backendApp}
     spec:
       containers:
-        - name: backend
-          image: hnguyencanh/backend:latest
+        - name: ${backendApp}
+          image: ${nodeRegistry}/${backendApp}-${project}:${deployTag}
           imagePullPolicy: Always
           ports:
             - containerPort: 3000
