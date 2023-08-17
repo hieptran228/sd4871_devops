@@ -7,8 +7,8 @@ void call() {
     String frontendApp = "frontend"
     String backendApp = "backend"
     String project = "nashtech-hieptran-sd4871"
-    String frontendTag = "latest"
-    String backendTag = "latest"
+    String frontendTag = "3"
+    String backendTag = "3"
 
 //========================================================================
 //========================================================================
