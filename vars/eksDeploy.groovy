@@ -21,7 +21,7 @@ void call() {
             writeFile file: '.cd/backend.yml', text: libraryResource('deploy/eks/node/backend.yaml')
             writeFile file: '.cd/frontend.yml', text: libraryResource('deploy/eks/node/frontend.yaml')
             writeFile file: '.cd/ingress.yml', text: libraryResource('deploy/eks/node/ingress.yaml')
-            writeFile file: '.cd/mongo.yml', text: libraryResource('deploy/eks/node/mongo.yaml')
+            writeFile file: '.cd/mongodb.yml', text: libraryResource('deploy/eks/node/mongodb.yaml')
         }
     }
 
@@ -33,7 +33,7 @@ void call() {
                 sh "kubectl apply -f frontend.yml -n ${namespace}"
                 sh "kubectl apply -f backend.yml -n ${namespace}"
                 sh "kubectl apply -f ingress.yml -n ${namespace}"
-                sh "kubectl apply -f mongo.yml -n ${namespace}"
+                sh "kubectl apply -f mongodb.yml -n ${namespace}"
             }
         }
     }
