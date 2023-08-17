@@ -28,7 +28,7 @@ spec:
     spec:
       containers:
         - name: ${frontendApp}
-          image: ${nodeRegistry}/${frontendApp}-${project}:${deployTag}
+          image: ${nodeRegistry}/${frontendApp}-${project}:${frontendTag}
           imagePullPolicy: Always
           ports:
             - containerPort: 3000

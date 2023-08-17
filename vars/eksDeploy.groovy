@@ -7,7 +7,8 @@ void call() {
     String frontendApp = "frontend"
     String backendApp = "backend"
     String project = "nashtech-hieptran-sd4871"
-    String deployTag = "latest"
+    String frontendTag = "latest"
+    String backendTag = "latest"
 
 //========================================================================
 //========================================================================
@@ -27,11 +28,8 @@ void call() {
     stage ("Deploy To EKS") {
         docker.withRegistry("https://${registry}", ecrCredential) {
             withKubeConfig([credentialsId: 'eks-dev', serverUrl: '']) {
-                sh "export registry=${registry}; \
-                envsubst < .cd/frontend.yml > frontend.yml; \ 
-                envsubst < .cd/backend.yml > backend.yml; \ 
-                envsubst < .cd/ingress.yml > ingress.yml; \ 
-                envsubst < .cd/mongo.yml > mongo.yml"
+                sh "export registry=${registry}; export frontendApp=${frontendApp}; export backendApp=${backendApp}; export project=${project}; export frontendTag=${frontendTag}; export backendTag=${backendTag};\
+                envsubst < .cd/frontend.yml > frontend.yml; envsubst < .cd/backend.yml > backend.yml; envsubst < .cd/ingress.yml > ingress.yml; envsubst < .cd/mongo.yml > mongo.yml"
                 sh "kubectl apply -f frontend.yml -n ${namespace}"
                 sh "kubectl apply -f backend.yml -n ${namespace}"
                 sh "kubectl apply -f ingress.yml -n ${namespace}"

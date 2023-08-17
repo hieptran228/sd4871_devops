@@ -27,7 +27,7 @@ spec:
     spec:
       containers:
         - name: ${backendApp}
-          image: ${nodeRegistry}/${backendApp}-${project}:${deployTag}
+          image: ${nodeRegistry}/${backendApp}-${project}:${backendTag}
           imagePullPolicy: Always
           ports:
             - containerPort: 3000
