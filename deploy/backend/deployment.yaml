@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: backend
-          image: 913820192915.dkr.ecr.ap-southeast-1.amazonaws.com/backend-nashtech-hieptran-sd4871:3
+          image: eks-backend
           imagePullPolicy: Always
           ports:
             - containerPort: 3000
