@@ -3,7 +3,7 @@ kind: Kustomization
 images:
   - name: eks-backend
     newName: 913820192915.dkr.ecr.ap-southeast-1.amazonaws.com/backend-nashtech-hieptran-sd4871
-    newTag: "5"
+    newTag: "6"
 resources:
 resources:
   - _deployment.yaml
