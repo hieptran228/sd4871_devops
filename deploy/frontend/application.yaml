@@ -2,13 +2,15 @@ apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   name: frontend
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
   namespace: argocd
   annotations:
-    argocd-image-updater.argoproj.io/image-list: frontend-app=913820192915.dkr.ecr.ap-southeast-1.amazonaws.com/frontend-nashtech-hieptran-sd4871:*
+    argocd-image-updater.argoproj.io/image-list: 913820192915.dkr.ecr.ap-southeast-1.amazonaws.com/frontend-nashtech-hieptran-sd4871
     argocd-image-updater.argoproj.io/write-back-method: git
     argocd-image-updater.argoproj.io/git-branch: main
     argocd-image-updater.argoproj.io/write-back-target: kustomization
-    argocd-image-updater.argoproj.io/frontend-app.force-update: "true"
+    argocd-image-updater.argoproj.io/force-update: "true"
 spec:
   project: frontend
   source:
@@ -17,7 +19,7 @@ spec:
     path: ./deploy/frontend
   destination:
     server: https://kubernetes.default.svc
-    namespace: app-argocd
+    namespace: node
   syncPolicy:
     automated:
       selfHeal: true
