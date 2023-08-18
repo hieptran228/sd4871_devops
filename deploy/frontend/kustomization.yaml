@@ -5,6 +5,6 @@ images:
     newName: 913820192915.dkr.ecr.ap-southeast-1.amazonaws.com/frontend-nashtech-hieptran-sd4871
     newTag: "5"
 resources:
-  - deployment.yaml
-  - service.yaml
-  - ingress.yaml
+  - _deployment.yaml
+  - _service.yaml
+  - _ingress.yaml
