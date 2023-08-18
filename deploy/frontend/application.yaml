@@ -9,7 +9,7 @@ metadata:
     argocd-image-updater.argoproj.io/image-list: frontend-app=913820192915.dkr.ecr.ap-southeast-1.amazonaws.com/frontend-nashtech-hieptran-sd4871
     argocd-image-updater.argoproj.io/frontend-app.force-update: "true"
     argocd-image-updater.argoproj.io/git-branch: main
-    argocd-image-updater.argoproj.io/write-back-method: git
+    argocd-image-updater.argoproj.io/write-back-method: git:secret:argocd/github-token
     argocd-image-updater.argoproj.io/write-back-target: kustomization
 spec:
   project: sd4871-devops
