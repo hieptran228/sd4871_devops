@@ -12,7 +12,7 @@ metadata:
     argocd-image-updater.argoproj.io/write-back-target: kustomization
     argocd-image-updater.argoproj.io/force-update: "true"
 spec:
-  project: backend
+  project: sd4871-devops
   source:
     repoURL: https://github.com/hieptran228/sd4871_devops
     targetRevision: HEAD
