@@ -12,7 +12,7 @@ metadata:
 spec:
   project: backend
   source:
-    repoURL: https://github.com/hieptran228/sd4871_msa
+    repoURL: https://github.com/hieptran228/sd4871_devops
     targetRevision: HEAD
     path: ./deploy/backend
   destination:
