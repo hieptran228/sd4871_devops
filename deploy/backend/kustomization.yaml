@@ -5,7 +5,7 @@ images:
   newName: 913820192915.dkr.ecr.ap-southeast-1.amazonaws.com/backend-nashtech-hieptran-sd4871
   newTag: "6"
 - name: 913820192915.dkr.ecr.ap-southeast-1.amazonaws.com/backend-nashtech-hieptran-sd4871
-  newTag: "10"
+  newTag: "11"
 resources:
 resources:
 - _deployment.yaml
