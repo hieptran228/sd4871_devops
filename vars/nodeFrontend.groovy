@@ -32,9 +32,7 @@ void call() {
 
         // Scan all vuln levels
         sh 'mkdir -p reports'
-        sh """
-            trivy filesystem --ignore-unfixed --vuln-type os,library $formatOption -o reports/frontend-scan.html ./src/frontend'
-            """
+        sh "trivy filesystem --ignore-unfixed --vuln-type os,library ${formatOption} -o reports/frontend-scan.html ./src/frontend"
         publishHTML(target: [
           allowMissing: true,
           alwaysLinkToLastBuild: false,
