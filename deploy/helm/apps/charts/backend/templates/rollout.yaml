@@ -5,7 +5,8 @@ metadata:
 spec:
   revisionHistoryLimit: 3
   selector:
-    {{- include "app.label" . | nindent 4 }}
+    matchLabels:
+      app: {{ .Values.name }}
   ports:
     - port: {{ .Values.servicePort }}
       protocol: TCP
