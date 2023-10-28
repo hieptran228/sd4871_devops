@@ -1,12 +1,12 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Rollout
 metadata:
-  name: {{ .Values.name }}
+  name: frontend-app
 spec:
   revisionHistoryLimit: 3
   selector:
     matchLabels:
-      app: {{ .Values.name }}
+      app: frontend-app
   ports:
     - port: {{ .Values.servicePort }}
       protocol: TCP
@@ -14,15 +14,15 @@ spec:
   strategy:
     blueGreen:
       autoPromotionEnabled: false
-      activeService: {{ .Values.name }}
-      previewService: {{ .Values.name }}-preview
+      activeService: frontend-app
+      previewService: frontend-app-preview
   template:
     metadata:
       labels:
         app: {{ .Values.name }}
     spec:
       containers:
-        - name: {{ .Values.name }}
+        - name: frontend-app
           image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
           imagePullPolicy: Always
           ports:
