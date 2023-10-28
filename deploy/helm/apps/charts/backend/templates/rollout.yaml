@@ -12,6 +12,7 @@ spec:
       targetPort: { { .Values.servicePort } }
   strategy:
     blueGreen:
+      autoPromotionEnabled: false
       activeService: {{ .Values.name }}
       previewService: {{ .Values.name }}-preview
   template:
@@ -27,11 +28,3 @@ spec:
             - name: http
               containerPort: {{ .Values.servicePort }}
               protocol: TCP
-          livenessProbe:
-            httpGet:
-              path: /
-              port: {{ .Values.servicePort }}
-          readinessProbe:
-            httpGet:
-              path: /
-              port: {{ .Values.servicePort }}
