@@ -16,8 +16,8 @@ spec:
   strategy:
     blueGreen:
       autoPromotionEnabled: false
-      activeService: {{ .Chart.Name }}
-      previewService: {{ .Chart.Name }}-preview
+      activeService: {{ .Values.name }}
+      previewService: {{ .Values.name }}-preview
   template:
     metadata:
       labels:
