@@ -1,12 +1,8 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 images:
-- name: eks-backend
-  newName: 913820192915.dkr.ecr.ap-southeast-1.amazonaws.com/backend-nashtech-hieptran-sd4871
-  newTag: "6"
-- name: 913820192915.dkr.ecr.ap-southeast-1.amazonaws.com/backend-nashtech-hieptran-sd4871
-  newTag: "11"
+  - name: 913820192915.dkr.ecr.ap-southeast-1.amazonaws.com/backend-nashtech-hieptran-sd4871
+    newTag: "11"
 resources:
-resources:
-- _deployment.yaml
-- _service.yaml
+  - _deployment.yaml
+  - _service.yaml

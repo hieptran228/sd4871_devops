@@ -1,0 +1,13 @@
+# Replica count for the frontend deployment
+replicaCount: 2
+
+# name of resources such as deployment, container, service
+name: frontend
+
+# Image repository and tag for the frontend container
+image:
+  repository: 913820192915.dkr.ecr.ap-southeast-1.amazonaws.com/frontend-nashtech-hieptran-sd4871
+  tag: 1
+
+# Port for the frontend service
+servicePort: 3000
