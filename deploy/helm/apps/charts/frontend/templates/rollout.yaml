@@ -7,9 +7,9 @@ spec:
   selector:
     {{- include "app.label" . | nindent 4 }}
   ports:
-    - port: { { .Values.servicePort } }
+    - port: {{ .Values.servicePort }}
       protocol: TCP
-      targetPort: { { .Values.servicePort } }
+      targetPort: {{ .Values.servicePort }}
   strategy:
     blueGreen:
       autoPromotionEnabled: false
