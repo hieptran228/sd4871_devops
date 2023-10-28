@@ -2,7 +2,7 @@ apiVersion: batch/v1
 kind: CronJob
 metadata:
   name: ecr-private-cronjob
-  namespace: node
+  namespace: argocd
 spec:
   schedule: "0 */10 * * 0"
   successfulJobsHistoryLimit: 3
@@ -40,12 +40,12 @@ apiVersion: v1
 kind: ServiceAccount
 metadata:
   name: ecr-private-sa
-  namespace: node
+  namespace: argocd
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: Role
 metadata:
-  namespace: node
+  namespace: argocd
   name: role-full-access-to-secrets
 rules:
   - apiGroups: [""]
@@ -60,11 +60,11 @@ kind: RoleBinding
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
   name: ecr-private-role-binding
-  namespace: node
+  namespace: argocd
 subjects:
   - kind: ServiceAccount
     name: ecr-private-sa
-    namespace: node
+    namespace: argocd
     apiGroup: ""
 roleRef:
   kind: Role
