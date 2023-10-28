@@ -1,0 +1,37 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Rollout
+metadata:
+  name: {{ .Values.name }}
+spec:
+  revisionHistoryLimit: 3
+  selector:
+    {{- include "app.label" . | nindent 4 }}
+  ports:
+    - port: { { .Values.servicePort } }
+      protocol: TCP
+      targetPort: { { .Values.servicePort } }
+  strategy:
+    blueGreen:
+      activeService: {{ .Values.name }}
+      previewService: {{ .Values.name }}-preview
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.name }}
+    spec:
+      containers:
+        - name: {{ .Values.name }}
+          image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
+          imagePullPolicy: Always
+          ports:
+            - name: http
+              containerPort: {{ .Values.servicePort }}
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /
+              port: {{ .Values.servicePort }}
+          readinessProbe:
+            httpGet:
+              path: /
+              port: {{ .Values.servicePort }}
