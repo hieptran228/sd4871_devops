@@ -47,6 +47,7 @@ void call() {
     }
 
     stage ("Push Docker Images") {
+        sh 'rm -f ~/.dockercfg ~/.docker/config.json || true'
         docker.withRegistry("https://${registry}", ecrCredential) {
             docker.image("${registry}/${name}:${BUILD_NUMBER}").push()
         }
