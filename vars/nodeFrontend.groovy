@@ -39,7 +39,7 @@ void call() {
           keepAll: true,
           reportDir: "reports",
           reportFiles: "frontend-scan.html",
-          reportName: "Trivy Report",
+          reportName: "Trivy Report - Frontend",
         ])
 
         // Scan again and fail on CRITICAL vulns
@@ -47,7 +47,6 @@ void call() {
     }
 
     stage ("Push Docker Images") {
-        sh 'rm -f ~/.dockercfg ~/.docker/config.json || true'
         docker.withRegistry("https://${registry}", ecrCredential) {
             docker.image("${registry}/${name}:${BUILD_NUMBER}").push()
         }
