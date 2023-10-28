@@ -1,0 +1,14 @@
+helm:
+  parameters:
+  - name: backend.image.name
+    value: 913820192915.dkr.ecr.ap-southeast-1.amazonaws.com/backend-nashtech-hieptran-sd4871
+    forcestring: true
+  - name: backend.image.tag
+    value: "17"
+    forcestring: true
+  - name: frontend.image.name
+    value: 913820192915.dkr.ecr.ap-southeast-1.amazonaws.com/frontend-nashtech-hieptran-sd4871
+    forcestring: true
+  - name: frontend.image.tag
+    value: "17"
+    forcestring: true
