@@ -1,7 +1,9 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Rollout
 metadata:
-  name: {{ .Values.name }}
+  name: frontend-app
+  labels:
+    app: {{ .Values.name }}
 spec:
   revisionHistoryLimit: 3
   selector:
@@ -22,7 +24,7 @@ spec:
         app: {{ .Values.name }}
     spec:
       containers:
-        - name: {{ .Values.name }}
+        - name: frontend-app
           image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
           imagePullPolicy: Always
           ports:
