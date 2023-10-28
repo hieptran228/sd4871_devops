@@ -28,9 +28,7 @@ void call() {
     }
 
     stage ("Trivy scan") {
-        // Install trivy
-        // sh 'curl -sfL https://raw.githubusercontent.com/aquasecurity/trivy/main/contrib/install.sh | sh -s -- -b /usr/local/bin v0.18.3'
-        // sh 'curl -sfL https://raw.githubusercontent.com/aquasecurity/trivy/main/contrib/html.tpl > html.tpl'
+        sh 'curl -sfL https://raw.githubusercontent.com/aquasecurity/trivy/main/contrib/html.tpl > html.tpl'
 
         // Scan all vuln levels
         sh 'mkdir -p reports'
