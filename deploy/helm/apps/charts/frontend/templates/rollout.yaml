@@ -9,10 +9,6 @@ spec:
   selector:
     matchLabels:
       app: {{ .Chart.Name }}
-  ports:
-    - port: {{ .Values.servicePort }}
-      protocol: TCP
-      targetPort: {{ .Values.servicePort }}
   strategy:
     blueGreen:
       autoPromotionEnabled: false
