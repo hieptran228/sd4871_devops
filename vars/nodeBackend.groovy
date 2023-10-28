@@ -28,20 +28,21 @@ void call() {
     }
 
     stage ("Trivy scan") {
-        sh 'curl -sfL https://raw.githubusercontent.com/aquasecurity/trivy/main/contrib/html.tpl > html.tpl'
+        def formatOption = "--format template --template \"@/usr/local/share/trivy/templates/html.tpl\""
 
         // Scan all vuln levels
         sh 'mkdir -p reports'
-        sh 'trivy filesystem --ignore-unfixed --vuln-type os,library --format template --template "@html.tpl" -o reports/backend-scan.html ./src/backend'
-        publishHTML target : [
-            allowMissing: true,
-            alwaysLinkToLastBuild: true,
-            keepAll: true,
-            reportDir: 'reports',
-            reportFiles: 'backend-scan.html',
-            reportName: 'Trivy Scan',
-            reportTitles: 'Trivy Scan'
-        ]
+        sh """
+            trivy filesystem --ignore-unfixed --vuln-type os,library $formatOption -o reports/backend-scan.html ./src/backend'
+            """
+        publishHTML(target: [
+          allowMissing: true,
+          alwaysLinkToLastBuild: false,
+          keepAll: true,
+          reportDir: "reports",
+          reportFiles: "backend-scan.html",
+          reportName: "Trivy Report",
+        ])
 
         // Scan again and fail on CRITICAL vulns
         sh 'trivy filesystem --ignore-unfixed --vuln-type os,library --exit-code 1 --severity CRITICAL ./src/backend'
